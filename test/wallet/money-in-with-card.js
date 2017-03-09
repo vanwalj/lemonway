@@ -1,17 +1,16 @@
-'use strict';
+'use strict'
 
-var expect = require('chai').expect;
-var Chance = require('chance');
+var Chance = require('chance')
 
-var Lemonway = require('../../');
+var Lemonway = require('../../')
 
-var chance = new Chance();
+var chance = new Chance()
 
 describe('money in with card', function () {
-  this.timeout(2000000);
+  this.timeout(2000000)
 
   it('credit a wallet', function (done) {
-    var lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT, process.env.WK_URL);
+    var lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT, process.env.WK_URL)
     lemonway.Wallet.create(chance.ip(), {
       id: chance.word({ syllables: 5 }),
       email: chance.email(),
@@ -27,12 +26,10 @@ describe('money in with card', function () {
         return wallet.moneyInWithCard(chance.ip(), card, {
           amount: 10.0,
           autoCommission: true
-        });
-      });
+        })
+      })
     }).then(function (transaction) {
-      return done();
-    }).catch(done);
-
-  });
-
-});
+      return done()
+    }).catch(done)
+  })
+})

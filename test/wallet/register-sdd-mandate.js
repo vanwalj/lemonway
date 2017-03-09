@@ -1,17 +1,17 @@
-'use strict';
+'use strict'
 
-var Chance = require('chance');
+var Chance = require('chance')
 
-var Lemonway = require('../../');
+var Lemonway = require('../../')
 
-var chance = new Chance();
+var chance = new Chance()
 
 describe('register sdd mandate', function () {
-  this.timeout(2000000);
+  this.timeout(2000000)
 
   it('sign a mandate', function (done) {
-    var lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT);
-    var id = chance.word({ syllables: 5 });
+    var lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT)
+    var id = chance.word({ syllables: 5 })
     lemonway.Wallet.create(chance.ip(), {
       id: id,
       email: chance.email(),
@@ -24,9 +24,9 @@ describe('register sdd mandate', function () {
         bic: 'ABCDEFGHIJK',
         iban: 'FR1420041010050500013M02606',
         isRecurring: false
-      });
+      })
     }).then(function (mandate) {
-      return done();
-    }).catch(done);
-  });
-});
+      return done()
+    }).catch(done)
+  })
+})

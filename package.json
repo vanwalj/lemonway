@@ -4,7 +4,8 @@
   "description": "Lemonway non-official SDK",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "eslint": "eslint lib test"
   },
   "repository": {
     "type": "git",
@@ -34,7 +35,12 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "chance": "^1.0.2",
+    "eslint": "^3.17.1",
+    "eslint-config-standard": "^7.0.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^2.1.1",
     "mocha": "^3.2.0",
+    "nyc": "^10.1.2",
     "open": "0.0.5"
   }
 }

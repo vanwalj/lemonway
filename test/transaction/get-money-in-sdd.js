@@ -1,20 +1,20 @@
-'use strict';
+'use strict'
 
-var Chance = require('chance');
+var Chance = require('chance')
 
-var Lemonway = require('../../');
+var Lemonway = require('../../')
 
-var chance = new Chance();
+var chance = new Chance()
 
 describe('Get money in SDD', function () {
-  this.timeout(2000000);
+  this.timeout(2000000)
 
   it('create a wallet', function (done) {
-    var lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT);
+    var lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT)
     lemonway.Transaction.getMoneyInSDD(chance.ip(), {
       after: new Date('2011-04-11')
     }).then(function (transactions) {
-      return done();
-    }).catch(done);
-  });
-});
+      return done()
+    }).catch(done)
+  })
+})

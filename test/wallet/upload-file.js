@@ -1,17 +1,16 @@
-'use strict';
+'use strict'
 
-var expect = require('chai').expect;
-var Chance = require('chance');
+var Chance = require('chance')
 
-var Lemonway = require('../../');
+var Lemonway = require('../../')
 
-var chance = new Chance();
+var chance = new Chance()
 
 describe('upload file', function () {
-  this.timeout(2000000);
+  this.timeout(2000000)
 
   it('upload a file', function (done) {
-    var lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT);
+    var lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT)
     return lemonway.Wallet.create(chance.ip(), {
       id: chance.word({ syllables: 5 }),
       email: chance.email(),
@@ -23,11 +22,9 @@ describe('upload file', function () {
         fileName: 'RIB.png',
         type: 'RIB',
         filePath: './test/wallet/RIB.png'
-      });
+      })
     }).then(function (document) {
-      return done();
-    }).catch(done);
-
-  });
-
-});
+      return done()
+    }).catch(done)
+  })
+})
