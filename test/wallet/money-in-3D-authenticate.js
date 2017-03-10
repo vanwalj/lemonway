@@ -1,26 +1,28 @@
 'use strict'
 
-var Chance = require('chance')
-var Promise = require('bluebird')
-var open = require('open')
+const info = require('debug')('info')
+const Chance = require('chance')
+const Promise = require('bluebird')
+const open = require('open')
 
-var Lemonway = require('../../')
+const Lemonway = require('../../')
 
-var chance = new Chance()
+const chance = new Chance()
 
 describe('money in 3D auth', function () {
   this.timeout(2000000)
 
-  it('credit a wallet', function (done) {
-    var lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT, process.env.WK_URL)
+  it('credit a wallet', (done) => {
+    const lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT, process.env.WK_URL)
     lemonway.Wallet.create(chance.ip(), {
       id: chance.word({ syllables: 5 }),
       email: chance.email(),
       firstName: chance.first(),
       lastName: chance.last(),
       birthDate: new Date()
-    }).then(function (wallet) {
-      return wallet.moneyIn3DInit(chance.ip(), {
+    })
+    .then((wallet) =>
+      wallet.moneyIn3DInit(chance.ip(), {
         amount: 10.00,
         autoCommission: true,
         cardNumber: '5017670000001800',
@@ -29,18 +31,17 @@ describe('money in 3D auth', function () {
         token: chance.word({ syllables: 5 }),
         returnUrl: chance.url()
       })
-    }).then(function (objs) {
+    )
+    .then((objs) => {
       process.stdin.resume()
       process.stdin.setEncoding('utf8')
-      return new Promise(function (resolve) {
+      return new Promise((resolve) => {
         open(objs.acs.getRedirectUrl())
-        console.log('Go to', objs.acs.getRedirectUrl(), 'then, press enter to resume')
-        return process.stdin.on('data', function () {
-          return resolve(objs.transaction.moneyIn3DAuthenticate(chance.ip()))
-        })
+        info('Go to', objs.acs.getRedirectUrl(), 'then, press enter to resume')
+        return process.stdin.on('data', () => resolve(objs.transaction.moneyIn3DAuthenticate(chance.ip())))
       })
-    }).then(function (transaction) {
-      return done()
-    }).catch(done)
+    })
+    .then(() => done())
+    .catch(done)
   })
 })

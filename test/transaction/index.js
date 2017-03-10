@@ -1,6 +1,6 @@
 'use strict'
 
-describe('wallet', function () {
+describe('wallet', () => {
   require('./get-money-in')
   require('./get-money-in-cheque')
   require('./get-money-in-sdd')

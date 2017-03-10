@@ -1,15 +1,16 @@
 'use strict'
+const info = require('debug')('info')
 
 if (!process.env.LOGIN || !process.env.PASS || !process.env.ENDPOINT) {
-  console.error('***')
-  console.error(' Set `LOGIN` `PASS` & `ENDPOINT` env for testing')
-  console.error(' http://documentation.lemonway.fr/api-fr/introduction/tests-et-comptes-par-defaut')
-  console.error(' LOGIN=society PASS=123456 ENDPOINT=https://ws.lemonway.fr/mb/{ENDPOINT}/directkitjson/service.asmx?WSDL npm test')
-  console.error('***')
+  info('***')
+  info(' Set `LOGIN` `PASS` & `ENDPOINT` env for testing')
+  info(' http://documentation.lemonway.fr/api-fr/introduction/tests-et-comptes-par-defaut')
+  info(' LOGIN=society PASS=123456 ENDPOINT=https://ws.lemonway.fr/mb/{ENDPOINT}/directkitjson/service.asmx?WSDL npm test')
+  info('***')
   process.exit(1)
 }
 
-describe('Lemonway SDK', function () {
+describe('Lemonway SDK', () => {
   require('./wallet')
   require('./transaction')
 })

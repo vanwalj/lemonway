@@ -1,32 +1,31 @@
 'use strict'
 
-var Chance = require('chance')
+const Chance = require('chance')
 
-var Lemonway = require('../../')
+const Lemonway = require('../../')
 
-var chance = new Chance()
+const chance = new Chance()
 
 describe('register sdd mandate', function () {
   this.timeout(2000000)
 
-  it('sign a mandate', function (done) {
-    var lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT)
-    var id = chance.word({ syllables: 5 })
+  it('sign a mandate', (done) => {
+    const lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT)
+    const id = chance.word({ syllables: 5 })
     lemonway.Wallet.create(chance.ip(), {
       id: id,
       email: chance.email(),
       firstName: chance.first(),
       lastName: chance.last(),
       birthDate: new Date()
-    }).then(function (wallet) {
-      return wallet.registerSDDMandate(chance.ip(), {
-        holder: chance.first() + ' ' + chance.last(),
-        bic: 'ABCDEFGHIJK',
-        iban: 'FR1420041010050500013M02606',
-        isRecurring: false
-      })
-    }).then(function (mandate) {
-      return done()
-    }).catch(done)
+    })
+    .then((wallet) => wallet.registerSDDMandate(chance.ip(), {
+      holder: `${chance.first()} ${chance.last()}`,
+      bic: 'ABCDEFGHIJK',
+      iban: 'FR1420041010050500013M02606',
+      isRecurring: false
+    }))
+    .then((mandate) => done())
+    .catch(done)
   })
 })

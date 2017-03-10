@@ -1,20 +1,20 @@
 'use strict'
 
-var Chance = require('chance')
+const Chance = require('chance')
 
-var Lemonway = require('../../')
+const Lemonway = require('../../')
 
-var chance = new Chance()
+const chance = new Chance()
 
 describe('Get money in IBAN', function () {
   this.timeout(2000000)
 
-  it('create a wallet', function (done) {
-    var lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT)
+  it('create a wallet', (done) => {
+    const lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT)
     lemonway.Transaction.getMoneyInIBANDetails(chance.ip(), {
       after: 0
-    }).then(function (transactions) {
-      return done()
-    }).catch(done)
+    })
+    .then((transactions) => done())
+    .catch(done)
   })
 })

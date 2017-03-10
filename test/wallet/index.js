@@ -1,6 +1,6 @@
 'use strict'
 
-describe('wallet', function () {
+describe('wallet', () => {
   require('./register')
   require('./money-in')
   require('./money-in-web')

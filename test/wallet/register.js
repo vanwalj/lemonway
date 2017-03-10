@@ -1,18 +1,18 @@
 'use strict'
 
-var expect = require('chai').expect
-var Chance = require('chance')
+const expect = require('chai').expect
+const Chance = require('chance')
 
-var Lemonway = require('../../')
+const Lemonway = require('../../')
 
-var chance = new Chance()
+const chance = new Chance()
 
 describe('register', function () {
   this.timeout(2000000)
 
-  it('create a wallet', function (done) {
-    var lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT)
-    var id = chance.word({ syllables: 5 })
+  it('create a wallet', (done) => {
+    const lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT)
+    const id = chance.word({ syllables: 5 })
     lemonway.Wallet.create(chance.ip(), {
       id: id,
       email: chance.email(),
@@ -20,13 +20,11 @@ describe('register', function () {
       lastName: chance.last(),
       birthDate: new Date()
     })
-      .then(function (wallet) {
+      .then((wallet) => {
         expect(wallet.id).to.equal(id)
         return lemonway.Wallet.get(chance.ip(), wallet.id)
       })
-      .then(function (wallet) {
-        console.log(wallet)
-        return done()
-      }).catch(done)
+      .then((wallet) => done())
+      .catch(done)
   })
 })

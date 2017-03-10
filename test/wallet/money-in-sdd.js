@@ -1,55 +1,60 @@
 'use strict'
 
-var open = require('open')
-var Promise = require('bluebird')
-var Chance = require('chance')
+const info = require('debug')('info')
+const open = require('open')
+const Promise = require('bluebird')
+const Chance = require('chance')
 
-var Lemonway = require('../../')
+const Lemonway = require('../../')
 
-var chance = new Chance()
+const chance = new Chance()
 
 describe('money in sdd', function () {
   this.timeout(2000000)
 
-  it('credit a wallet', function (done) {
-    var lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT, process.env.WK_URL)
-    var id = chance.word({ syllables: 5 })
+  it('credit a wallet', (done) => {
+    const lemonway = new Lemonway(process.env.LOGIN, process.env.PASS, process.env.ENDPOINT, process.env.WK_URL)
+    const id = chance.word({ syllables: 5 })
     lemonway.Wallet.create(chance.ip(), {
       id: id,
       email: chance.email(),
       firstName: chance.first(),
       lastName: chance.last(),
       birthDate: new Date()
-    }).then(function (wallet) {
-      return wallet.updateWalletStatus(chance.ip(), {
+    })
+    .then((wallet) =>
+      wallet.updateWalletStatus(chance.ip(), {
         status: 'KYC_2'
-      }).then(function (wallet) {
-        return wallet.registerSDDMandate(chance.ip(), {
-          holder: chance.first() + ' ' + chance.last(),
+      })
+      .then((wallet) =>
+        wallet.registerSDDMandate(chance.ip(), {
+          holder: `${chance.first()} ${chance.last()}`,
           bic: 'ABCDEFGHIJK',
           iban: 'FR1420041010050500013M02606',
           isRecurring: false
         })
-      }).then(function (mandate) {
-        return mandate.signDocumentInit(chance.ip(), wallet, {
+      )
+      .then((mandate) =>
+        mandate.signDocumentInit(chance.ip(), wallet, {
           mobileNumber: process.env.PHONE,
           returnUrl: chance.url(),
           errorUrl: chance.url()
-        }).then(function (signMandate) {
+        })
+        .then((signMandate) => {
           open(signMandate.redirectUrl)
-          console.log('Go to', signMandate.redirectUrl, 'then, press enter to resume')
-          return new Promise(function (resolve) {
-            return process.stdin.on('data', function () {
-              return resolve(wallet.moneyInSDDInit(chance.ip(), mandate, {
+          info('Go to', signMandate.redirectUrl, 'then, press enter to resume')
+          return new Promise((resolve) =>
+            process.stdin.on('data', () =>
+              resolve(wallet.moneyInSDDInit(chance.ip(), mandate, {
                 amount: 100.0,
                 autoCommission: true
               }))
-            })
-          })
+            )
+          )
         })
-      })
-    }).then(function (transaction) {
-      return done()
-    }).catch(done)
+      )
+    )
+    .then(() => done())
+    .catch(done)
   })
 })
