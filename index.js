@@ -1,3 +1,4 @@
-'use strict';
+// @flow
+'use strict'
 
-module.exports = require('./lib/lemonway');
+module.exports = require('./lib')

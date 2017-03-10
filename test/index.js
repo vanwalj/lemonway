@@ -1,3 +1,4 @@
+// @flow
 'use strict'
 const info = require('debug')('info')
 
